@@ -19,17 +19,21 @@ public class LocalizationTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+        double speed = 0.6;
 
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         waitForStart();
 
         while (!isStopRequested()) {
+            if (gamepad1.left_bumper)  speed = 0.25;
+            else if (gamepad1.right_bumper) speed = 1;
+            else speed = 0.6;
             drive.setWeightedDrivePower(
                     new Pose2d(
-                            -gamepad1.left_stick_y,
-                            -gamepad1.left_stick_x,
-                            -gamepad1.right_stick_x
+                            -gamepad1.left_stick_y * speed,
+                            -gamepad1.left_stick_x * speed,
+                            -gamepad1.right_stick_x * speed
                     )
             );
 
